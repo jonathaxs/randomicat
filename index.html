@@ -1,17 +1,40 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <title>Randomicat</title>
+
+  <!-- Aqui você poderia futuramente adicionar uma favicon (ícone da aba do navegador) -->
+  <!-- <link rel="icon" href="favicon.ico" type="image/x-icon"> -->
+
+  <!-- Link do arquivo CSS externo -->
   <link rel="stylesheet" href="style.css">
+
+  <!-- Carrega o script JS com defer (só executa depois do carregamento do DOM) -->
+  <script src="script.js" defer></script>
 </head>
+
 <body>
+
+  <!-- Cabeçalho principal do site -->
   <h1>Randomicat 🎲</h1>
+
+  <!-- Campo de input para digitar novos itens -->
   <input type="text" id="item" placeholder="Digite um item">
+
+  <!-- Botão para adicionar o item digitado -->
   <button onclick="adicionarItem()">Adicionar</button>
+
+  <!-- Botão para sortear um item aleatório -->
   <button onclick="sortear()">Sortear</button>
+
+  <!-- Lista onde os itens adicionados serão exibidos -->
   <ul id="lista"></ul>
+
+  <!-- Área onde o resultado do sorteio será exibido -->
   <p id="resultado"></p>
-  <script src="script.js"></script>
+
 </body>
+
 </html>

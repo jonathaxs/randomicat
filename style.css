@@ -1,0 +1,52 @@
+/* Reset básico de margens e fontes do body */
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+/* Título principal */
+h1 {
+  color: #333;
+}
+
+/* Estilo geral dos botões */
+button {
+  padding: 5px 10px;
+  margin: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Estilo para a lista de itens (ul) */
+ul {
+  list-style-type: none; /* Remove as bolinhas da lista padrão */
+  padding-left: 0;
+  margin-top: 20px;
+}
+
+/* Estilo para cada item da lista (li) */
+li {
+  margin: 5px 0;
+  padding: 8px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  display: flex; /* Faz o botão ficar alinhado ao lado do texto */
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Estilo para o botão de exclusão (herda o estilo geral dos botões) */
+li button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 8px;
+}
+
+/* Estilo para o texto de resultado do sorteio */
+#resultado {
+  font-weight: bold;
+  margin-top: 20px;
+  font-size: 18px;
+}
