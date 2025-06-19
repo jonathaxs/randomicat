@@ -1,104 +1,68 @@
-// Criando um array vazio para armazenar os itens que o usuário vai adicionar
+// Array vazio para armazenar os itens
 const itens = [];
 
-/**
- * Função chamada sempre que o usuário quiser adicionar um novo item
- * Seja clicando no botão ou pressionando Enter.
- */
 function adicionarItem() {
-  // Pegando o elemento input pelo seu id "item"
-  const input = document.getElementById("item");
+  const input = document.getElementById("item"); // Input
+  const textoDigitado = input.value.trim(); // Trimando o input
 
-  // Verificando se o valor digitado não está vazio (ignorando espaços em branco nas pontas)
-  if (input.value.trim() !== "") {
-    // Adicionamos o valor ao array de itens
-    itens.push(input.value.trim());
+  if (textoDigitado === "") return; // Se não tiver valor, return
 
-    // Atualizando a lista exibida na tela
-    atualizarLista();
+  const novosItens = textoDigitado.split(",") // Divide o texto em itens separados por vírgula
+    .map(item => item.trim()) // Remove os espaços extras de cada item
 
-    // Limpando o campo de input após adicionar
-    input.value = "";
-  }
+    .filter(item => item !== ""); // Remove itens vazios (caso tenha ", ,")
+
+  // forEach separar cada item e dar o push no array
+  novosItens.forEach(item => {
+    itens.push(item);
+  });
+
+  atualizarLista(); // Func lista visual
+  input.value = ""; // Limpa o campo
 }
 
-/**
- * Função responsável por desenhar a lista de itens na tela
- * Sempre é chamada depois de adicionar ou remover um item
- */
 function atualizarLista() {
-  // Pegando o elemento UL (lista) onde os itens serão exibidos
   const lista = document.getElementById("lista");
+  lista.innerHTML = ""; // Limpando o conteúdo da lista para reconstruí-la do zero
 
-  // Limpando o conteúdo da lista para reconstruí-la do zero
-  lista.innerHTML = "";
-
-  // Percorrendo o array de itens e para cada item:
+  // forEach do array de itens
   itens.forEach((item, index) => {
-    // Criando um elemento <li> (item de lista)
-    const li = document.createElement("li");
+    const li = document.createElement("li"); // Criando um elemento <li> (item de lista)
+    li.textContent = item; // Definindo o texto do <li> com o conteúdo do item atual
 
-    // Definindo o texto do <li> com o conteúdo do item atual
-    li.textContent = item;
-
-    // Criando o botão de exclusão ao lado de cada item
+    // Botão de exclusão ao lado de cada item
     const botaoExcluir = document.createElement("button");
     botaoExcluir.textContent = "🗑️"; // Ícone de lixeira
     botaoExcluir.style.marginLeft = "10px"; // Espaçamento entre o texto e o botão
 
-    // Adicionando o evento de clique no botão de exclusão
     botaoExcluir.addEventListener("click", () => {
-      // Quando clicado, remove-se o item correspondente
       removerItem(index);
     });
 
-    // Adicionando o botão de exclusão dentro do <li>
-    li.appendChild(botaoExcluir);
+    li.appendChild(botaoExcluir); // Appendando o botão de exclusão dentro do <li>
 
-    // Adicionando o <li> completo na lista (UL)
-    lista.appendChild(li);
+    lista.appendChild(li); // Appendando o <li> completo na lista (UL)
   });
 }
 
-/**
- * Função que remove um item do array e atualiza a lista na tela
- * Recebe o índice do item que será removido
- */
 function removerItem(index) {
-  // Método splice para remover o item da posição indicada
-  itens.splice(index, 1);
-
-  // Atualizando a lista após a remoção
-  atualizarLista();
+  itens.splice(index, 1); // Método splice para remover o item da posição indicada
+  atualizarLista(); // Atualizando a lista após a remoção com splice
 }
 
-/**
- * Função responsável por realizar o sorteio aleatório
- * Escolhe um item do array e exibe o resultado
- */
 function sortear() {
-  // Verifica se há itens no array antes de tentar sortear
-  if (itens.length === 0) {
+  if (itens.length === 0) { // Verifica se há itens no array antes de tentar sortear
     alert("Adicione itens antes de sortear!");
     return;
   }
 
-  // Gera um número aleatório entre 0 e o tamanho do array
-  const indice = Math.floor(Math.random() * itens.length);
-
-  // Pegando o elemento onde será exibido o resultado
-  const resultado = document.getElementById("resultado");
-
-  // Exibindo o item sorteado na tela
-  resultado.textContent = `Resultado: ${itens[indice]}`;
+  const indice = Math.floor(Math.random() * itens.length); // Número aleatório entre 0 e o tamanho do array
+  const resultado = document.getElementById("resultado"); // Pegando o elemento onde será exibido o resultado
+  resultado.textContent = `Resultado: ${itens[indice]}`; // Exibindo o item sorteado na tela
 }
 
-/**
- * Adicionando o evento de teclado no input
- * Sempre que o usuário digitar algo e pressionar Enter, chamamos a função adicionarItem()
- */
+// EventListener para o usuário apertar Enter após escrever o Item no input
 const input = document.getElementById("item");
-
 input.addEventListener("keyup", function(event) {
   if (event.key === "Enter") {
     adicionarItem();
