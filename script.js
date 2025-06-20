@@ -9,16 +9,26 @@ function adicionarItem() {
 
   const novosItens = textoDigitado.split(",") // Divide o texto em itens separados por vírgula
     .map(item => item.trim()) // Remove os espaços extras de cada item
-
     .filter(item => item !== ""); // Remove itens vazios (caso tenha ", ,")
 
-  // forEach separar cada item e dar o push no array
-  novosItens.forEach(item => {
-    itens.push(item);
+  const itensRepetidos = []; // Array dos intens repetidos
+
+  // forEach separar cada item e fazer o push no array
+   novosItens.forEach(item => {
+    if (!itens.includes(item)) { // Se item já existe no array
+      itens.push(item); // Add item ao array
+    } else { // Se já existe, pusha no array de repetidos
+      itensRepetidos.push(item);
+    }
   });
 
-  atualizarLista(); // Func lista visual
+  atualizarLista(); // Func atualiza lista visual
   input.value = ""; // Limpa o campo
+
+  // Se o array de repetidos tiver itens, joga mensagem de erro + o array na func exbirMensagemDeErro
+  if (itensRepetidos.length > 0) { 
+    exibirMensagemDeErro("Itens que já estão na lista não foram adicionados:", itensRepetidos);
+  }
 }
 
 function atualizarLista() {
@@ -60,6 +70,27 @@ function sortear() {
   const resultado = document.getElementById("resultado"); // Pegando o elemento onde será exibido o resultado
   resultado.textContent = `Resultado: ${itens[indice]}`; // Exibindo o item sorteado na tela
 }
+
+function exibirMensagemDeErro(texto, listaDuplicados = []) { //Recebe texto e array do if na função adicionarItem
+  // Variáveis para interagir com o ID no DOM
+  const divMensagem = document.getElementById("mensagem");
+  const spanMensagem = document.getElementById("texto-mensagem");
+  const ulDuplicados = document.getElementById("itens-duplicados");
+
+  spanMensagem.textContent = texto; //Envia o texto pro DOM
+
+  listaDuplicados.forEach(item => { // Individualizando o array
+    const li = document.createElement("li"); // Variável para armazenar uma criação de um <li>
+    li.textContent = item; // <li> recebe um item individual
+    ulDuplicados.appendChild(li); // Appendando a <li> dentro da mãe(<ul>)
+  });  
+
+  divMensagem.style.display = "flex"; // Exibe a mensagem
+}
+// Ao event de clicar no X, a spanmensagem fica none(some)
+document.getElementById("fechar-mensagem").addEventListener("click", () => {
+  document.getElementById("mensagem").style.display = "none";
+});
 
 // EventListener para o usuário apertar Enter após escrever o Item no input
 const input = document.getElementById("item");

@@ -50,3 +50,36 @@ li button {
   margin-top: 20px;
   font-size: 18px;
 }
+
+/* Estilo da mensagem de erro de duplicatas */
+.mensagem-erro {
+  background-color: #ffe6e6;
+  border: 1px solid #ff4d4d;
+  color: #b30000;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Estilo da lista dentro da mensagem de erro */
+#itens-duplicados {
+  margin-top: 5px;
+  margin-bottom: 0;
+  padding-left: 20px;
+  color: #b30000;
+  list-style-type: disc;
+  font-size: 14px;
+}
+
+/* Estilo do botão "X" */
+.mensagem-erro button {
+  background: none;
+  border: none;
+  color: #b30000;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}

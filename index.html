@@ -22,6 +22,15 @@
   <!-- Botão para sortear um aleatório -->
   <button onclick="sortear()">Sortear</button>
 
+  <!-- Mensagem de erro de duplicatas (inicialmente escondida) -->
+  <div id="mensagem" class="mensagem-erro" style="display: none;">
+    <div>
+      <span id="texto-mensagem"></span>
+      <ul id="itens-duplicados"></ul>
+    </div>
+    <button id="fechar-mensagem">X</button>
+  </div>
+
   <!-- Lista onde os adicionados serão exibidos -->
   <ul id="lista"></ul>
 
