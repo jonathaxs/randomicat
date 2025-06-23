@@ -1,34 +1,16 @@
 // Array vazio para armazenar os itens
 const itens = [];
 
-function adicionarItem() {
-  const input = document.getElementById("item"); // Input
-  const textoDigitado = input.value.trim(); // Trimando o input
-
-  if (textoDigitado === "") return; // Se não tiver valor, return
-
-  const novosItens = textoDigitado.split(",") // Divide o texto em itens separados por vírgula
-    .map(item => item.trim()) // Remove os espaços extras de cada item
-    .filter(item => item !== ""); // Remove itens vazios (caso tenha ", ,")
-
-  const itensRepetidos = []; // Array dos intens repetidos
-
-  // forEach separar cada item e fazer o push no array
-   novosItens.forEach(item => {
-    if (!itens.includes(item)) { // Se item já existe no array
-      itens.push(item); // Add item ao array
-    } else { // Se já existe, pusha no array de repetidos
-      itensRepetidos.push(item);
-    }
-  });
-
-  atualizarLista(); // Func atualiza lista visual
-  input.value = ""; // Limpa o campo
-
-  // Se o array de repetidos tiver itens, joga mensagem de erro + o array na func exbirMensagemDeErro
-  if (itensRepetidos.length > 0) { 
-    exibirMensagemDeErro("Itens que já estão na lista não foram adicionados:", itensRepetidos);
+// EventListener para o usuário apertar Enter após escrever o Item no input
+const input = document.getElementById("item");
+input.addEventListener("keyup", function(event) {
+  if (event.key === "Enter") {
+    adicionarItem();
   }
+});
+
+function salvarItensNoStorage() {
+  localStorage.setItem("itensRandomicat", JSON.stringify(itens)); // Stringify para armazenar Json como string que é obrigatório no localStorage
 }
 
 function atualizarLista() {
@@ -55,9 +37,53 @@ function atualizarLista() {
   });
 }
 
+function carregarItensDoStorage() {
+  const dados = localStorage.getItem("itensRandomicat"); // Jogando o Json de localStorage em dados
+  if (dados) {
+    const itensSalvos = JSON.parse(dados); // .parse Convertendo de volta o Json stringifado para um array em itensSalvos
+    itens.push(...itensSalvos); // Spread operator(...) no array itensSalvos para dentro do array itens
+    atualizarLista();
+  }
+}
+
+carregarItensDoStorage();
+
+function adicionarItem() {
+  const input = document.getElementById("item"); // Input
+  const textoDigitado = input.value.trim(); // Trimando o input
+
+  if (textoDigitado === "") return; // Se não tiver valor, return
+
+  const novosItens = textoDigitado.split(",") // Divide o texto em itens separados por vírgula
+    .map(item => item.trim()) // Remove os espaços extras de cada item
+    .filter(item => item !== ""); // Remove itens vazios (caso tenha ", ,")
+
+  const itensRepetidos = []; // Array dos intens repetidos
+
+  // forEach separar cada item e fazer o push no array
+   novosItens.forEach(item => {
+    if (!itens.includes(item)) { // Se item já existe no array
+      itens.push(item); // Add item ao array
+    } else { // Se já existe, pusha no array de repetidos
+      itensRepetidos.push(item);
+    }
+  });
+
+  salvarItensNoStorage();
+  atualizarLista();
+  input.value = ""; // Limpa o campo
+
+  // Se o array de repetidos tiver itens, joga mensagem de erro + o array na func exbirMensagemDeErro
+  if (itensRepetidos.length > 0) { 
+    exibirMensagemDeErro("Itens que já estão na lista não foram adicionados:", itensRepetidos);
+  }
+}
+
 function removerItem(index) {
   itens.splice(index, 1); // Método splice para remover o item da posição indicada
-  atualizarLista(); // Atualizando a lista após a remoção com splice
+
+  salvarItensNoStorage();
+  atualizarLista();
 }
 
 function sortear() {
@@ -69,6 +95,19 @@ function sortear() {
   const indice = Math.floor(Math.random() * itens.length); // Número aleatório entre 0 e o tamanho do array
   const resultado = document.getElementById("resultado"); // Pegando o elemento onde será exibido o resultado
   resultado.textContent = `Resultado: ${itens[indice]}`; // Exibindo o item sorteado na tela
+}
+
+function limparTudo() {
+  // Váriavel que recebe confirmador alerta 
+  const confirmacao = confirm("Tem certeza que deseja apagar todos os itens?");
+  if (confirmacao) { // Se confirmação receber OK:
+
+    itens.length = 0; // Zera o array
+
+    localStorage.removeItem("itensRandomicat"); // Limpando o localStorage
+
+    atualizarLista(); // Att
+  }
 }
 
 function exibirMensagemDeErro(texto, listaDuplicados = []) { //Recebe texto e array do if na função adicionarItem
@@ -90,12 +129,4 @@ function exibirMensagemDeErro(texto, listaDuplicados = []) { //Recebe texto e ar
 // Ao event de clicar no X, a spanmensagem fica none(some)
 document.getElementById("fechar-mensagem").addEventListener("click", () => {
   document.getElementById("mensagem").style.display = "none";
-});
-
-// EventListener para o usuário apertar Enter após escrever o Item no input
-const input = document.getElementById("item");
-input.addEventListener("keyup", function(event) {
-  if (event.key === "Enter") {
-    adicionarItem();
-  }
 });

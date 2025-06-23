@@ -44,6 +44,13 @@ li button {
   padding: 5px 8px;
 }
 
+/* Estilo específico para o botão 'Limpar tudo' */
+button:nth-of-type(3) {
+  background-color: #e0e0e0;
+  border: 1px solid #999;
+  color: #333;
+}
+
 /* Estilo para o texto de resultado do sorteio */
 #resultado {
   font-weight: bold;
