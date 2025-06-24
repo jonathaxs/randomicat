@@ -1,15 +1,15 @@
-/* Reset básico de margens e fontes do body */
+/* Basic reset to the body(full page) tag */
 body {
   font-family: Arial, sans-serif;
   margin: 20px;
 }
 
-/* Título principal */
+/* Main title tag */
 h1 {
   color: #333;
 }
 
-/* Estilo geral dos botões */
+/* Button's tag general style */
 button {
   padding: 5px 10px;
   margin: 5px;
@@ -17,25 +17,25 @@ button {
   cursor: pointer;
 }
 
-/* Estilo para a lista de itens */
+/* Ul's tag general style */
 ul {
-  list-style-type: none; /* Remove as bolinhas da lista padrão */
+  list-style-type: none; /* Remove the default circles */
   padding-left: 0;
   margin-top: 20px;
 }
 
-/* Estilo para cada item da lista */
+/* li's tag general style */
 li {
   margin: 5px 0;
   padding: 8px;
   background-color: #f5f5f5;
   border-radius: 4px;
-  display: flex; /* Faz o botão ficar alinhado ao lado do texto */
+  display: flex; /* Buttons alignment */
   justify-content: space-between;
   align-items: center;
 }
 
-/* Estilo para o botão de exclusão (herda o estilo geral dos botões) */
+/* Delete button tag style (Inherits the general buttons tag style) */
 li button {
   background-color: #ff4d4d;
   color: white;
@@ -44,22 +44,22 @@ li button {
   padding: 5px 8px;
 }
 
-/* Estilo específico para o botão 'Limpar tudo' */
+/* The style of the third button tag in the order (The Clear All button in that case) */
 button:nth-of-type(3) {
   background-color: #e0e0e0;
   border: 1px solid #999;
   color: #333;
 }
 
-/* Estilo para o texto de resultado do sorteio */
-#resultado {
+/* Style on id of the result message */
+#the-cat-chose {
   font-weight: bold;
   margin-top: 20px;
   font-size: 18px;
 }
 
-/* Estilo da mensagem de erro de duplicatas */
-.mensagem-erro {
+/* Style on class of the error message of duplicate items */
+.error-message {
   background-color: #ffe6e6;
   border: 1px solid #ff4d4d;
   color: #b30000;
@@ -71,8 +71,18 @@ button:nth-of-type(3) {
   align-items: center;
 }
 
-/* Estilo da lista dentro da mensagem de erro */
-#itens-duplicados {
+/* Style on class of the "X" button */
+.error-message button {
+  background: none;
+  border: none;
+  color: #b30000;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Style on id of the duplicate items list (<ul>) */
+#duplicate-items {
   margin-top: 5px;
   margin-bottom: 0;
   padding-left: 20px;
@@ -81,12 +91,3 @@ button:nth-of-type(3) {
   font-size: 14px;
 }
 
-/* Estilo do botão "X" */
-.mensagem-erro button {
-  background: none;
-  border: none;
-  color: #b30000;
-  font-weight: bold;
-  font-size: 16px;
-  cursor: pointer;
-}

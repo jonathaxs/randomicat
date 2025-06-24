@@ -6,39 +6,35 @@
   <title>Randomicat</title>
   <!-- <link rel="icon" href="favicon.ico" type="image/x-icon"> -->
   <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script> <!-- "defer" só executa depois do carregamento do DOM -->
+  <script src="script.js" defer></script> <!-- "defer" only executes js after DOM's full load -->
 </head>
 
 <body>
 
-  <h1>Randomicat 🎲</h1> <!-- Cabeçalho principal do site -->
+  <h1>Randomicat 🎲</h1> <!-- Main head -->
 
-  <!-- Input text para digitar novos itens -->
-  <input type="text" id="item" placeholder="Digite um item">
+  <input type="text" id="item" placeholder="Enter the items">
 
-  <!-- Botão para adicionar o item -->
-  <button onclick="adicionarItem()">Adicionar</button>
+  <button onclick="addItem()">Add item</button>
 
-  <!-- Botão para sortear um aleatório -->
-  <button onclick="sortear()">Sortear</button>
+  <button onclick="randomicat()">Randomicat</button>
 
-  <!-- Botão para limpar todos os itens -->
-  <button onclick="limparTudo()">Limpar tudo</button>
+  <button onclick="clearAll()">Clear All</button>
 
-  <!-- Mensagem de erro de duplicatas (inicialmente escondida) -->
-  <div id="mensagem" class="mensagem-erro" style="display: none;">
+  <!-- Error message, initialy hided, appears when duplicate items are found -->
+  <div id="error-message" class="error-message" style="display: none;">
     <div>
-      <span id="texto-mensagem"></span>
-      <ul id="itens-duplicados"></ul>
+      <span id="error-message-text"></span>
+      <ul id="duplicate-items"></ul>
     </div>
-    <button id="fechar-mensagem">X</button>
+    <button id="close-message">X</button> 
   </div>
 
-  <!-- Lista onde os adicionados serão exibidos -->
-  <ul id="lista"></ul>
+  <!-- List where the items will be shown -->
+  <ul id="list"></ul>
 
-  <!-- Área onde o resultado do sorteio será exibido -->
-  <p id="resultado"></p>
+  <!-- Area where the results will be shown -->
+  <p id="the-cat-chose"></p>
 
 </body>
 </html>

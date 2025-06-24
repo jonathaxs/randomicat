@@ -1,132 +1,131 @@
 // Array vazio para armazenar os itens
-const itens = [];
+const items = [];
 
-// EventListener para o usuário apertar Enter após escrever o Item no input
+// EventListener for the user press return after typing the item in the input
 const input = document.getElementById("item");
 input.addEventListener("keyup", function(event) {
   if (event.key === "Enter") {
-    adicionarItem();
+    addItem();
   }
 });
 
-function salvarItensNoStorage() {
-  localStorage.setItem("itensRandomicat", JSON.stringify(itens)); // Stringify para armazenar Json como string que é obrigatório no localStorage
+function saveItemsToStorage() {
+  // .stringify() to convert the array to a JSON string, which is required for localStorage
+  localStorage.setItem("localRandomicatItems", JSON.stringify(items));
 }
 
-function atualizarLista() {
-  const lista = document.getElementById("lista");
-  lista.innerHTML = ""; // Limpando o conteúdo da lista para reconstruí-la do zero
+function updateList() {
+  const list = document.getElementById("list");
+  list.innerHTML = ""; // Cleaning the list for rebuild it from scratch
 
-  // forEach do array de itens
-  itens.forEach((item, index) => {
-    const li = document.createElement("li"); // Criando um elemento <li> (item de lista)
-    li.textContent = item; // Definindo o texto do <li> com o conteúdo do item atual
+  // forEach to iterate over the items array
+  items.forEach((item, index) => {
+    const li = document.createElement("li");
+    li.textContent = item;
 
-    // Botão de exclusão ao lado de cada item
-    const botaoExcluir = document.createElement("button");
-    botaoExcluir.textContent = "🗑️"; // Ícone de lixeira
-    botaoExcluir.style.marginLeft = "10px"; // Espaçamento entre o texto e o botão
-
-    botaoExcluir.addEventListener("click", () => {
-      removerItem(index);
+    // Creating delete button aside every item
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "🗑️";
+    deleteButton.style.marginLeft = "10px";
+    deleteButton.addEventListener("click", () => {
+      removeItem(index); // The button index is passed to the removeItem function
     });
+    li.appendChild(deleteButton); // Appending delete button inside every <li>
 
-    li.appendChild(botaoExcluir); // Appendando o botão de exclusão dentro do <li>
-
-    lista.appendChild(li); // Appendando o <li> completo na lista (UL)
+    list.appendChild(li); // Appending full <li> to the list(<ul>)
   });
 }
 
-function carregarItensDoStorage() {
-  const dados = localStorage.getItem("itensRandomicat"); // Jogando o Json de localStorage em dados
-  if (dados) {
-    const itensSalvos = JSON.parse(dados); // .parse Convertendo de volta o Json stringifado para um array em itensSalvos
-    itens.push(...itensSalvos); // Spread operator(...) no array itensSalvos para dentro do array itens
-    atualizarLista();
+function loadItemsFromStorage() { // ------------------------
+  const localRandomicatItems = localStorage.getItem("localRandomicatItems");
+  if (localRandomicatItems) {
+    // .parse() to convert the JSON string back to an js array
+    const parsedLocalRandomicatItems = JSON.parse(localRandomicatItems);
+    // Spread operator(...) required when array(parsedLocalRandomicatItems) .push array(items)
+    items.push(...parsedLocalRandomicatItems); 
+    updateList();
   }
 }
 
-carregarItensDoStorage();
+loadItemsFromStorage();
 
-function adicionarItem() {
-  const input = document.getElementById("item"); // Input
-  const textoDigitado = input.value.trim(); // Trimando o input
+function addItem() {
+  const inputOfItem = document.getElementById("item");
+  const typedText = inputOfItem.value.trim(); // /trim() removes whitespace between
 
-  if (textoDigitado === "") return; // Se não tiver valor, return
+  if (typedText === "") return;
 
-  const novosItens = textoDigitado.split(",") // Divide o texto em itens separados por vírgula
-    .map(item => item.trim()) // Remove os espaços extras de cada item
-    .filter(item => item !== ""); // Remove itens vazios (caso tenha ", ,")
+  const newItems = typedText.split(",")
+    .map(item => item.trim()) // .map() to .trim() each item
+    .filter(item => item !== ""); // .filter() to filter not-empty items
 
-  const itensRepetidos = []; // Array dos intens repetidos
-
-  // forEach separar cada item e fazer o push no array
-   novosItens.forEach(item => {
-    if (!itens.includes(item)) { // Se item já existe no array
-      itens.push(item); // Add item ao array
-    } else { // Se já existe, pusha no array de repetidos
-      itensRepetidos.push(item);
+  const duplicateItems = [];
+ 
+   newItems.forEach(item => {
+    if (!items.includes(item)) { // If items not-includes(item)
+      items.push(item); // So, add item to the items's array
+    } else { // Else, .push() to the duplicateItems array
+      duplicateItems.push(item);
     }
   });
 
-  salvarItensNoStorage();
-  atualizarLista();
-  input.value = ""; // Limpa o campo
+  saveItemsToStorage();
+  updateList();
+  inputOfItem.value = ""; // Cleaning the input field after adding items
 
-  // Se o array de repetidos tiver itens, joga mensagem de erro + o array na func exbirMensagemDeErro
-  if (itensRepetidos.length > 0) { 
-    exibirMensagemDeErro("Itens que já estão na lista não foram adicionados:", itensRepetidos);
+  // Verifying if there are duplicate items to show duplicate items message
+  if (duplicateItems.length > 0) { 
+    showDuplicateItemsMessage("The items already on the list have not been added:", duplicateItems);
   }
 }
 
-function removerItem(index) {
-  itens.splice(index, 1); // Método splice para remover o item da posição indicada
-
-  salvarItensNoStorage();
-  atualizarLista();
+function removeItem(index) {
+  // .splice() remove item at the specified index(coming from the button in updateList())
+  items.splice(index, 1);
+  saveItemsToStorage();
+  updateList();
 }
 
-function sortear() {
-  if (itens.length === 0) { // Verifica se há itens no array antes de tentar sortear
-    alert("Adicione itens antes de sortear!");
+function randomicat() {
+  if (items.length === 0) {
+    alert("Add items before calling randomicat!");
     return;
   }
-
-  const indice = Math.floor(Math.random() * itens.length); // Número aleatório entre 0 e o tamanho do array
-  const resultado = document.getElementById("resultado"); // Pegando o elemento onde será exibido o resultado
-  resultado.textContent = `Resultado: ${itens[indice]}`; // Exibindo o item sorteado na tela
+  // .floor() rounds down the result of the multiplication
+  /* .random() generates a random number between 0 and 1, 
+        which is then multiplied by the length of the items array */
+  const index = Math.floor(Math.random() * items.length); 
+  const theCatChose = document.getElementById("the-cat-chose");
+  theCatChose.textContent = `The cat chose: ${items[index]}`;
 }
 
-function limparTudo() {
-  // Váriavel que recebe confirmador alerta 
-  const confirmacao = confirm("Tem certeza que deseja apagar todos os itens?");
-  if (confirmacao) { // Se confirmação receber OK:
-
-    itens.length = 0; // Zera o array
-
-    localStorage.removeItem("itensRandomicat"); // Limpando o localStorage
-
-    atualizarLista(); // Att
+function clearAll() {
+  // confirm is an alert with a confirmation dialog
+  const confirmer = confirm("Are you sure you want to delete all items?");
+  if (confirmer) { // If confirm is true
+    items.length = 0; // Clean the array(items)
+    localStorage.removeItem("localRandomicatItems"); // Clean the localStorage
+    updateList();
   }
 }
 
-function exibirMensagemDeErro(texto, listaDuplicados = []) { //Recebe texto e array do if na função adicionarItem
-  // Variáveis para interagir com o ID no DOM
-  const divMensagem = document.getElementById("mensagem");
-  const spanMensagem = document.getElementById("texto-mensagem");
-  const ulDuplicados = document.getElementById("itens-duplicados");
+// Receiving the text and array from if in the addItem() function
+function showDuplicateItemsMessage(text, duplicateArrayList = []) { 
+  const errorMessageDiv = document.getElementById("error-message");
+  const errorMessageTextSpan = document.getElementById("error-message-text");
+  const ulOfDuplicates = document.getElementById("duplicate-items");
 
-  spanMensagem.textContent = texto; //Envia o texto pro DOM
+  errorMessageTextSpan.textContent = text;
 
-  listaDuplicados.forEach(item => { // Individualizando o array
-    const li = document.createElement("li"); // Variável para armazenar uma criação de um <li>
-    li.textContent = item; // <li> recebe um item individual
-    ulDuplicados.appendChild(li); // Appendando a <li> dentro da mãe(<ul>)
+  duplicateArrayList.forEach(item => {
+    const li = document.createElement("li");
+    li.textContent = item;
+    ulOfDuplicates.appendChild(li);
   });  
-
-  divMensagem.style.display = "flex"; // Exibe a mensagem
+  // Changing the div style display from none to flex to show the content
+  errorMessageDiv.style.display = "flex"; 
 }
-// Ao event de clicar no X, a spanmensagem fica none(some)
-document.getElementById("fechar-mensagem").addEventListener("click", () => {
-  document.getElementById("mensagem").style.display = "none";
+// Click on X hides the error message
+document.getElementById("close-message").addEventListener("click", () => {
+  document.getElementById("error-message").style.display = "none";
 });
