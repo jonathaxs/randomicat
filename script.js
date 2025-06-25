@@ -36,7 +36,7 @@ function updateList() {
   });
 }
 
-function loadItemsFromStorage() { // ------------------------
+function loadItemsFromStorage() { 
   const localRandomicatItems = localStorage.getItem("localRandomicatItems");
   if (localRandomicatItems) {
     // .parse() to convert the JSON string back to an js array
@@ -47,7 +47,7 @@ function loadItemsFromStorage() { // ------------------------
   }
 }
 
-loadItemsFromStorage();
+loadItemsFromStorage()
 
 function addItem() {
   const inputOfItem = document.getElementById("item");
@@ -94,10 +94,22 @@ function randomicat() {
   // .floor() rounds down the result of the multiplication
   /* .random() generates a random number between 0 and 1, 
         which is then multiplied by the length of the items array */
-  const index = Math.floor(Math.random() * items.length); 
-  const theCatChose = document.getElementById("the-cat-chose");
-  theCatChose.textContent = `The cat chose: ${items[index]}`;
+  const index = Math.floor(Math.random() * items.length);
+
+  const chosenItem = items[index];
+  const resultTheCatChose = document.getElementById("result-the-cat-chose");
+  resultTheCatChose.textContent = `The cat chose: ${items[index]}`;
+  localStorage.setItem("localRandomicatResult", chosenItem);
 }
+
+function loadResultFromStorage() {
+  const savedResult = localStorage.getItem("localRandomicatResult");
+  if (savedResult) { // If savedResult is not null
+    document.getElementById("result-the-cat-chose").textContent = `The cat chose: ${savedResult}`;
+  }
+}
+
+loadResultFromStorage();
 
 function clearAll() {
   // confirm is an alert with a confirmation dialog
@@ -105,6 +117,7 @@ function clearAll() {
   if (confirmer) { // If confirm is true
     items.length = 0; // Clean the array(items)
     localStorage.removeItem("localRandomicatItems"); // Clean the localStorage
+    document.getElementById("result-the-cat-chose").textContent = ""; // clear UI
     updateList();
   }
 }
@@ -125,6 +138,7 @@ function showDuplicateItemsMessage(text, duplicateArrayList = []) {
   // Changing the div style display from none to flex to show the content
   errorMessageDiv.style.display = "flex"; 
 }
+
 // Click on X hides the error message
 document.getElementById("close-message").addEventListener("click", () => {
   document.getElementById("error-message").style.display = "none";
