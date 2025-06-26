@@ -111,6 +111,22 @@ function loadResultFromStorage() {
 
 loadResultFromStorage();
 
+function copyList() {
+  if (items.length === 0) {
+    alert("There's nothing to copy!");
+    return;
+  }
+
+  const textToCopy = items.join(", "); // .join() to convert the array to a string with commas and spaces
+  navigator.clipboard.writeText(textToCopy) // .navigator.clipboard.writeText() to copy the text to clipboard
+    .then(() => { // .then() is called when navigator.clipboard.writeText() succeeds
+      alert("List copied to clipboard!");
+    })
+    .catch(() => { // When fails
+      alert("Failed to copy the list.");
+    });
+}
+
 function clearAll() {
   // confirm is an alert with a confirmation dialog
   const confirmer = confirm("Are you sure you want to delete all items?");

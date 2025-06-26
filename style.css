@@ -44,8 +44,15 @@ li button {
   padding: 5px 8px;
 }
 
-/* The style of the third button tag in the order (The Clear All button in that case) */
+/* The style of the third button tag in the order (The Copy list button in that case) */
 button:nth-of-type(3) {
+  background-color: #d0f0ff;
+  border: 1px solid #66aacc;
+  color: #004466;
+}
+
+/* The style of the fourth button tag in the order (The Clear All button in that case) */
+button:nth-of-type(4) {
   background-color: #e0e0e0;
   border: 1px solid #999;
   color: #333;
