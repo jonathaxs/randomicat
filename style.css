@@ -1,3 +1,10 @@
+
+:root {
+  --bg-color: white;
+  --text-color: #333;
+  --card-bg: #f5f5f5;
+}
+
 /* Basic reset to the body(full page) tag */
 body {
   font-family: Arial, sans-serif;
@@ -6,7 +13,7 @@ body {
 
 /* Main title tag */
 h1 {
-  color: #333;
+  color: var(--text-color);
 }
 
 /* Button's tag general style */
@@ -67,9 +74,9 @@ button:nth-of-type(4) {
 
 /* Style on class of the error message of duplicate items */
 .error-message {
-  background-color: #ffe6e6;
-  border: 1px solid #ff4d4d;
-  color: #b30000;
+  background-color: var(--error-bg, #ffe6e6);
+  border: 1px solid var(--error-border, #ff4d4d);
+  color: var(--error-text, #b30000);
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 4px;
@@ -98,3 +105,39 @@ button:nth-of-type(4) {
   font-size: 14px;
 }
 
+
+/* Variables for light and dark themes */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+/* Dark theme override on body tag */
+body.dark {
+  --bg-color: #121212;
+  --text-color: #f5f5f5;
+  --card-bg: #1e1e1e;
+  --error-bg: #2a0000;
+  --error-border: #ff8080;
+  --error-text: #ffcccc;
+}
+
+/* List of elements that use a variable on the background */
+li {
+  background-color: var(--card-bg);
+}
+
+/* Class for the theme toggle button */
+.theme-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 18px;
+  padding: 5px 10px;
+  cursor: pointer;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+}

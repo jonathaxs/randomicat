@@ -159,3 +159,29 @@ function showDuplicateItemsMessage(text, duplicateArrayList = []) {
 document.getElementById("close-message").addEventListener("click", () => {
   document.getElementById("error-message").style.display = "none";
 });
+
+// Func to detects the saved theme or the user's preference
+function initTheme() {
+  const savedTheme = localStorage.getItem("randomicat-theme");
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches; // .matches return true or false
+
+  const theme = savedTheme || (prefersDark ? "dark" : "light"); // savedTheme first, if not, then prefersDark condition
+  applyTheme(theme);
+}
+
+// Function to apply the theme based on the user's choice
+function applyTheme(theme) {
+  document.body.classList.toggle("dark", theme === "dark");
+  const button = document.getElementById("theme-toggle");
+  button.textContent = theme === "dark" ? "☀️" : "🌙";
+}
+
+// Toggle theme when the button is clicked
+document.getElementById("theme-toggle").addEventListener("click", () => {
+  const isDark = document.body.classList.contains("dark");
+  const newTheme = isDark ? "light" : "dark";
+  applyTheme(newTheme);
+  localStorage.setItem("randomicat-theme", newTheme);
+});
+
+initTheme();
