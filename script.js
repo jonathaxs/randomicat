@@ -1,7 +1,8 @@
 // Array vazio para armazenar os itens
 const items = [];
 
-// EventListener for the user press return after typing the item in the input
+
+// EventListener para quando o usuário apertar Enter no input e adcionar os itens
 const input = document.getElementById("item");
 input.addEventListener("keyup", function(event) {
   if (event.key === "Enter") {
@@ -10,29 +11,29 @@ input.addEventListener("keyup", function(event) {
 });
 
 function saveItemsToStorage() {
-  // .stringify() to convert the array to a JSON string, which is required for localStorage
+  // .stringify() converte o array para JSON string, que é necessário para o localStorage
   localStorage.setItem("localRandomicatItems", JSON.stringify(items));
 }
 
 function updateList() {
   const list = document.getElementById("list");
-  list.innerHTML = ""; // Cleaning the list for rebuild it from scratch
+  list.innerHTML = ""; // Limpando a lista para reconstrui-la do zero
 
-  // forEach to iterate over the items array
+  // forEach para cada item do array, cria uma li
   items.forEach((item, index) => {
     const li = document.createElement("li");
     li.textContent = item;
 
-    // Creating delete button aside every item
+    // Criando junto um botão de excluir em cada li
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "🗑️";
     deleteButton.style.marginLeft = "10px";
     deleteButton.addEventListener("click", () => {
-      removeItem(index); // The button index is passed to the removeItem function
+      removeItem(index); // Este botão é passado para a função removeItem()
     });
-    li.appendChild(deleteButton); // Appending delete button inside every <li>
+    li.appendChild(deleteButton); // Acrescentando dentro do li o botão delete <li>
 
-    list.appendChild(li); // Appending full <li> to the list(<ul>)
+    list.appendChild(li); // Acrescentando o li na ul
   });
 }
 
@@ -40,8 +41,9 @@ function loadItemsFromStorage() {
   const localRandomicatItems = localStorage.getItem("localRandomicatItems");
   if (localRandomicatItems) {
     // .parse() to convert the JSON string back to an js array
+    // .parse() é o contrário de stringfy, converte JSON string para Array de código
     const parsedLocalRandomicatItems = JSON.parse(localRandomicatItems);
-    // Spread operator(...) required when array(parsedLocalRandomicatItems) .push array(items)
+    // ...(spread operator para espalhar os itens do array parsedLocalRandomicatItems no outro array items)
     items.push(...parsedLocalRandomicatItems); 
     updateList();
   }
@@ -51,36 +53,35 @@ loadItemsFromStorage()
 
 function addItem() {
   const inputOfItem = document.getElementById("item");
-  const typedText = inputOfItem.value.trim(); // /trim() removes whitespace between
+  const typedText = inputOfItem.value.trim(); // .trim() remove espaço em branco entre eles
 
   if (typedText === "") return;
 
   const newItems = typedText.split(",")
-    .map(item => item.trim()) // .map() to .trim() each item
-    .filter(item => item !== ""); // .filter() to filter not-empty items
+    .map(item => item.trim()) // .map() pra dar um .trim() em cada item
+    .filter(item => item !== ""); // .filter() pra filtrar itens diferentes de vazio
 
   const duplicateItems = [];
  
    newItems.forEach(item => {
-    if (!items.includes(item)) { // If items not-includes(item)
-      items.push(item); // So, add item to the items's array
-    } else { // Else, .push() to the duplicateItems array
+    if (!items.includes(item)) { // Se se o array items não(!) tem o novo item digitado
+      items.push(item); // Ai adiciona o novo item
+    } else { // Se não, .push() pro duplicateItems array
       duplicateItems.push(item);
     }
   });
 
   saveItemsToStorage();
   updateList();
-  inputOfItem.value = ""; // Cleaning the input field after adding items
+  inputOfItem.value = ""; // Limpando o input
 
-  // Verifying if there are duplicate items to show duplicate items message
-  if (duplicateItems.length > 0) { 
+  if (duplicateItems.length > 0) { // Se o tamanho do array de itens duplicados for maior que zero, chamar função showDuplicateItemsMessage
     showDuplicateItemsMessage("The items already on the list have not been added:", duplicateItems);
   }
 }
 
 function removeItem(index) {
-  // .splice() remove item at the specified index(coming from the button in updateList())
+  // .splice() remove 1 item do index(que vem da função updateList())
   items.splice(index, 1);
   saveItemsToStorage();
   updateList();
