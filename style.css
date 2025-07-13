@@ -5,18 +5,18 @@
   --card-bg: #f5f5f5;
 }
 
-/* Basic reset to the body(full page) tag */
+/* Estilização geral para o body */
 body {
   font-family: Arial, sans-serif;
   margin: 20px;
 }
 
-/* Main title tag */
+/* Cor do cabeçalho */
 h1 {
   color: var(--text-color);
 }
 
-/* Button's tag general style */
+/* Estilização geral dos botões */
 button {
   padding: 5px 10px;
   margin: 5px;
@@ -24,25 +24,25 @@ button {
   cursor: pointer;
 }
 
-/* Ul's tag general style */
+/* Estilização geral da lista */
 ul {
   list-style-type: none; /* Remove the default circles */
   padding-left: 0;
   margin-top: 20px;
 }
 
-/* li's tag general style */
+/* Estilização dos itens */
 li {
   margin: 5px 0;
   padding: 8px;
   background-color: #f5f5f5;
   border-radius: 4px;
-  display: flex; /* Buttons alignment */
+  display: flex; /* Alinhamento dos itens */
   justify-content: space-between;
   align-items: center;
 }
 
-/* Delete button tag style (Inherits the general buttons tag style) */
+/* Estilo do botão lixeirinha (inherits o estilo do botão principal) */
 li button {
   background-color: #ff4d4d;
   color: white;
@@ -51,28 +51,28 @@ li button {
   padding: 5px 8px;
 }
 
-/* The style of the third button tag in the order (The Copy list button in that case) */
+/* Estilo do terceiro botão (O Botão de Copiar Lista) */
 button:nth-of-type(3) {
   background-color: #d0f0ff;
   border: 1px solid #66aacc;
   color: #004466;
 }
 
-/* The style of the fourth button tag in the order (The Clear All button in that case) */
+/* Estilo do quarto botão (O Botão de limpar Lista) */
 button:nth-of-type(4) {
   background-color: #e0e0e0;
   border: 1px solid #999;
   color: #333;
 }
 
-/* Style on id of the result message */
+/* Estilo da mensagem de resultado */
 #result-the-cat-chose {
   font-weight: bold;
   margin-top: 20px;
   font-size: 18px;
 }
 
-/* Style on class of the error message of duplicate items */
+/* Estilos da mensagem de erro dos duplicados */
 .error-message {
   background-color: var(--error-bg, #ffe6e6);
   border: 1px solid var(--error-border, #ff4d4d);
@@ -85,7 +85,7 @@ button:nth-of-type(4) {
   align-items: center;
 }
 
-/* Style on class of the "X" button */
+/* Estilo do botão X da menssagem de erro de duplicados */
 .error-message button {
   background: none;
   border: none;
@@ -95,7 +95,7 @@ button:nth-of-type(4) {
   cursor: pointer;
 }
 
-/* Style on id of the duplicate items list (<ul>) */
+/* Estilo da lista dos duplicados */
 #duplicate-items {
   margin-top: 5px;
   margin-bottom: 0;
@@ -106,13 +106,13 @@ button:nth-of-type(4) {
 }
 
 
-/* Variables for light and dark themes */
+/* Variávels pro Modo Escuro e Modo Claro */
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
 }
 
-/* Dark theme override on body tag */
+/* Estilo do modo escuro no body */
 body.dark {
   --bg-color: #121212;
   --text-color: #f5f5f5;
@@ -122,12 +122,12 @@ body.dark {
   --error-text: #ffcccc;
 }
 
-/* List of elements that use a variable on the background */
+/* Estilização dos itens no modo escuro */
 li {
   background-color: var(--card-bg);
 }
 
-/* Class for the theme toggle button */
+/* Botão de trocar o tema Modo Escuro / Modo Claro */
 .theme-toggle {
   position: absolute;
   top: 10px;
