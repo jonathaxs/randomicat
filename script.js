@@ -153,6 +153,8 @@ function avisoDeItensDuplicados(textoDoAviso, arrayItensDuplicados = []) {
   const listaDeDuplicados = document.getElementById("itens-duplicados");
 
   textoAvisoDuplicados.textContent = textoDoAviso;
+  // Limpando a lista de duplicados antes de adicionar novos itens
+  listaDeDuplicados.innerHTML = "";
 
   arrayItensDuplicados.forEach(item => {
     const li = document.createElement("li");
