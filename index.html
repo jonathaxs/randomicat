@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Randomicat</title>
+  <title>Randomicat 🎲</title>
   <!-- <link rel="icon" href="favicon.ico" type="image/x-icon"> -->
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script> <!-- "defer" só executa o DOM depois do script -->
@@ -11,34 +11,35 @@
 
 <body>
 
-  <button id="theme-toggle" class="theme-toggle">🌙</button>
+  <!-- Botão para mudar o tema escuro ou claro-->
+  <button id="troca-tema" class="troca-tema">🌙</button>
 
-  <h1>Randomicat 🎲</h1> <!-- Cabeçalho principal -->
+  <h1>Randomicat 🎲</h1>
 
-  <input type="text" id="item" placeholder="Enter the items">
+  <input type="text" id="item" placeholder="Digite os itens">
 
-  <button onclick="addItem()">Add item</button>
+  <button onclick="adicionaItem()">Adicionar Item</button>
 
-  <button onclick="randomicat()">Randomicat</button>
+  <button onclick="sortear()">Sortear</button>
 
-  <button onclick="copyList()">Copy list</button>
+  <button onclick="copiarLista()">Copiar Itens</button>
 
-  <button onclick="clearAll()">Clear All</button>
+  <button onclick="excluirTudo()">Excluir Tudo</button>
 
    <!-- Mensagem de erro, inicialmente escondida, aparece quando duplicados são encontrados -->
-  <div id="error-message" class="error-message" style="display: none;">
+  <div id="aviso-de-duplicados" class="aviso-de-duplicados" style="display: none;">
     <div>
-      <span id="error-message-text"></span>
-      <ul id="duplicate-items"></ul>
+      <span id="texto-aviso-duplicados"></span>
+      <ul id="itens-duplicados"></ul>
     </div>
-    <button id="close-message">X</button> 
+    <button id="fechar-aviso-duplicados">X</button> 
   </div>
 
   <!-- Mensagem do resultado -->
-  <p id="result-the-cat-chose"></p>
+  <p id="resultado-do-sorteio"></p>
 
   <!-- Lista dos itens que serão mostrados -->
-  <ul id="list"></ul>
+  <ul id="listaDeItens"></ul>
 
 </body>
 </html>
