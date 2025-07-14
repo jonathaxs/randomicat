@@ -1,188 +1,196 @@
-// Array vazio para armazenar os itens
-const items = [];
 
+// Declarando array vazio para armazenar os itens posteriomente
+const arrayDosItens = [];
 
-// EventListener para quando o usuário apertar Enter no input e adcionar os itens
+// Quando o usuário apertar Enter no input, adicionaItem()
 const input = document.getElementById("item");
-input.addEventListener("keyup", function(event) {
-  if (event.key === "Enter") {
-    addItem();
+input.addEventListener("keyup", function(evento) {
+  if (evento.key === "Enter") {
+    adicionaItem();
   }
 });
 
-function saveItemsToStorage() {
-  // .stringify() converte o array para JSON string, que é necessário para o localStorage
-  localStorage.setItem("localRandomicatItems", JSON.stringify(items));
+function salvarItensNoStorage() {
+  /* .stringify() converte o array para JSON string
+   localStorage só aceita strings, então é necessário converter o array para string */
+  localStorage.setItem("itensNoStorage", JSON.stringify(arrayDosItens));
 }
 
-function updateList() {
-  const list = document.getElementById("list");
-  list.innerHTML = ""; // Limpando a lista para reconstrui-la do zero
+function atualizaLista() {
+  const list = document.getElementById("listaDeItens");
+  // Limpando a lista antes de atualizar por que o innerHTML é o conteúdo HTML dentro do elemento
+  list.innerHTML = ""; 
 
-  // forEach para cada item do array, cria uma li
-  items.forEach((item, index) => {
+  // forEach: para cada item do arrayDosItens, cria-se uma <li>
+  arrayDosItens.forEach((item, posicaoDoItem) => {
     const li = document.createElement("li");
     li.textContent = item;
 
-    // Criando junto um botão de excluir em cada li
-    const deleteButton = document.createElement("button");
-    deleteButton.textContent = "🗑️";
-    deleteButton.style.marginLeft = "10px";
-    deleteButton.addEventListener("click", () => {
-      removeItem(index); // Este botão é passado para a função removeItem()
-    });
-    li.appendChild(deleteButton); // Acrescentando dentro do li o botão delete <li>
+    // Criando também um botão de excluir em cada li
+    const botaoExcluirItem = document.createElement("button");
+    botaoExcluirItem.textContent = "🗑️";
 
-    list.appendChild(li); // Acrescentando o li na ul
+    // Estilizando o botão de excluir (passar para o CSS depois **************************************************)
+    botaoExcluirItem.style.marginLeft = "10px";
+
+    // Ao clicar no botão de excluir, chama a função removeItem passando a posição do item
+    botaoExcluirItem.addEventListener("click", () => {
+      excluirItem(posicaoDoItem);
+    });
+    li.appendChild(botaoExcluirItem); // Acrescentando dentro do li o botão delete
+
+    list.appendChild(li); // Por fim, acrescentando o <li> completo na <ul>
   });
 }
 
-function loadItemsFromStorage() { 
-  const localRandomicatItems = localStorage.getItem("localRandomicatItems");
-  if (localRandomicatItems) {
-    // .parse() to convert the JSON string back to an js array
-    // .parse() é o contrário de stringfy, converte JSON string para Array de código
-    const parsedLocalRandomicatItems = JSON.parse(localRandomicatItems);
-    // ...(spread operator para espalhar os itens do array parsedLocalRandomicatItems no outro array items)
-    items.push(...parsedLocalRandomicatItems); 
-    updateList();
+function carregarItensDoStorage() { 
+  const itensNoStorage = localStorage.getItem("itensNoStorage");
+  if (itensNoStorage) { // Se itensNoStorage tiver valor
+    // .parse() para converter a string JSON de volta para um array de código
+    const arrayItensNoStorage = JSON.parse(itensNoStorage);
+    /* ...(Spread Operator para espalhar um array dentro de outro)
+     arrayItensNoStorage dentro de arrayDosItens */
+    arrayDosItens.push(...arrayItensNoStorage); 
+    atualizaLista();
   }
 }
 
-loadItemsFromStorage()
+carregarItensDoStorage()
 
-function addItem() {
-  const inputOfItem = document.getElementById("item");
-  const typedText = inputOfItem.value.trim(); // .trim() remove espaço em branco entre eles
+function adicionaItem() {
+  const inputDosItens = document.getElementById("item");
+  const textoDigitado = inputDosItens.value.trim(); // .trim() remove espaço em branco entre os itens
 
-  if (typedText === "") return;
+  if (textoDigitado === "") return; // Se o input estiver vazio, encerra a função
 
-  const newItems = typedText.split(",")
+  const novosItens = textoDigitado.split(",")
     .map(item => item.trim()) // .map() pra dar um .trim() em cada item
     .filter(item => item !== ""); // .filter() pra filtrar itens diferentes de vazio
 
-  const duplicateItems = [];
+  const arrayItensDuplicados = [];
  
-   newItems.forEach(item => {
-    if (!items.includes(item)) { // Se se o array items não(!) tem o novo item digitado
-      items.push(item); // Ai adiciona o novo item
-    } else { // Se não, .push() pro duplicateItems array
-      duplicateItems.push(item);
+   novosItens.forEach(item => {
+    if (!arrayDosItens.includes(item)) { // Se o arrayDosItens não(!) tem o novoItem
+      arrayDosItens.push(item); // .push() adiciona o novoItem no arrayDosItens
+    } else { // Se não, .push() pro arrayItensDuplicados array
+      arrayItensDuplicados.push(item);
     }
   });
 
-  saveItemsToStorage();
-  updateList();
-  inputOfItem.value = ""; // Limpando o input
+  salvarItensNoStorage();
+  atualizaLista();
+  inputDosItens.value = ""; // Limpando o input após adição
 
-  if (duplicateItems.length > 0) { // Se o tamanho do array de itens duplicados for maior que zero, chamar função showDuplicateItemsMessage
-    showDuplicateItemsMessage("The items already on the list have not been added:", duplicateItems);
+// Se o tamanho do arrayItensDuplicados for maior que 0; chamar função avisoDeItensDuplicados
+  if (arrayItensDuplicados.length > 0) {
+    avisoDeItensDuplicados("Os itens que já estão na lista não foram adicionados:", arrayItensDuplicados);
   }
 }
 
-function removeItem(index) {
-  // .splice() remove 1 item do index(que vem da função updateList())
-  items.splice(index, 1);
-  saveItemsToStorage();
-  updateList();
+function excluirItem(itemX) {
+  // .splice() remove 1 elemento do parâmetro itemX, enviado da função atualizaLista()
+  arrayDosItens.splice(itemX, 1);
+  salvarItensNoStorage();
+  atualizaLista();
 }
 
-function randomicat() {
-  if (items.length === 0) {
-    alert("Add items before calling randomicat!");
+function sortear() {
+  if (arrayDosItens.length === 0) {
+    alert("Adicione itens antes de sortear!");
     return;
   }
-  // .floor() rounds down the result of the multiplication
-  /* .random() generates a random number between 0 and 1, 
-        which is then multiplied by the length of the items array */
-  const index = Math.floor(Math.random() * items.length);
+  // .floor() arredonda para baixo o número gerado aleatoriamente
+  /* .random() gera um número aleatório entre 0 e 1, 
+  que é multiplicado pelo tamanho do array */
+  const sorteio = Math.floor(Math.random() * arrayDosItens.length);
 
-  const chosenItem = items[index];
-  const resultTheCatChose = document.getElementById("result-the-cat-chose");
-  resultTheCatChose.textContent = `The cat chose: ${items[index]}`;
-  localStorage.setItem("localRandomicatResult", chosenItem);
+  const itemSorteado = arrayDosItens[sorteio];
+  const resultadoDoSorteio = document.getElementById("resultado-do-sorteio");
+  resultadoDoSorteio.textContent = `O gato escolheu: ${arrayDosItens[sorteio]}`;
+  localStorage.setItem("resultadoNoStorage", itemSorteado);
 }
 
-function loadResultFromStorage() {
-  const savedResult = localStorage.getItem("localRandomicatResult");
-  if (savedResult) { // If savedResult is not null
-    document.getElementById("result-the-cat-chose").textContent = `The cat chose: ${savedResult}`;
+function carregarResultadoNoStorage() {
+  const resultadoSalvo = localStorage.getItem("resultadoNoStorage");
+  if (resultadoSalvo) { // Se resultadoSalvo tiver valor
+    document.getElementById("resultado-do-sorteio").textContent = `O gato escolheu: ${resultadoSalvo}`;
   }
 }
 
-loadResultFromStorage();
+carregarResultadoNoStorage();
 
-function copyList() {
-  if (items.length === 0) {
-    alert("There's nothing to copy!");
+function copiarLista() {
+  if (arrayDosItens.length === 0) {
+    alert("Não tem nenhum item para copiar!");
     return;
   }
-
-  const textToCopy = items.join(", "); // .join() to convert the array to a string with commas and spaces
-  navigator.clipboard.writeText(textToCopy) // .navigator.clipboard.writeText() to copy the text to clipboard
-    .then(() => { // .then() is called when navigator.clipboard.writeText() succeeds
-      alert("List copied to clipboard!");
+  const copiaLista = arrayDosItens.join(", "); // .join() converte o arrayDosItens em uma string separada por vírgulas
+  navigator.clipboard.writeText(copiaLista) // .navigator.clipboard.writeText() copia o texto pro clipboard
+    .then(() => { // .then() é chamado quando navigator.clipboard.writeText() é bem-sucedido
+      alert("Lista copiada!");
     })
-    .catch(() => { // When fails
-      alert("Failed to copy the list.");
+    .catch(() => { // Quando há erro, .catch() é chamado
+      alert("Falha ao copiar.");
     });
 }
 
-function clearAll() {
-  // confirm is an alert with a confirmation dialog
-  const confirmer = confirm("Are you sure you want to delete all items?");
-  if (confirmer) { // If confirm is true
-    items.length = 0; // Clean the array(items)
-    localStorage.removeItem("localRandomicatItems"); // Clean the localStorage
-    document.getElementById("result-the-cat-chose").textContent = ""; // clear UI
-    updateList();
+function excluirTudo() {
+  // confirm() é um alerta que pergunta ao usuário se ele tem certeza
+  const confirmaExclusao = confirm("Tem certeza que deseja excluir tudo?");
+  if (confirmaExclusao) { // Se confirmaExclusao for true
+    arrayDosItens.length = 0; // Zera o arrayDosItens
+    localStorage.removeItem("itensNoStorage");
+    localStorage.removeItem("resultadoNoStorage");
+    document.getElementById("resultado-do-sorteio").textContent = "";
+    atualizaLista();
   }
 }
 
-// Receiving the text and array from if in the addItem() function
-function showDuplicateItemsMessage(text, duplicateArrayList = []) { 
-  const errorMessageDiv = document.getElementById("error-message");
-  const errorMessageTextSpan = document.getElementById("error-message-text");
-  const ulOfDuplicates = document.getElementById("duplicate-items");
+// Função recebendo o texto e o array do if na função adicionaItem()
+function avisoDeItensDuplicados(textoDoAviso, arrayItensDuplicados = []) { 
+  const avisoDeDuplicados = document.getElementById("aviso-de-duplicados");
+  const textoAvisoDuplicados = document.getElementById("texto-aviso-duplicados");
+  const listaDeDuplicados = document.getElementById("itens-duplicados");
 
-  errorMessageTextSpan.textContent = text;
+  textoAvisoDuplicados.textContent = textoDoAviso;
 
-  duplicateArrayList.forEach(item => {
+  arrayItensDuplicados.forEach(item => {
     const li = document.createElement("li");
     li.textContent = item;
-    ulOfDuplicates.appendChild(li);
+    listaDeDuplicados.appendChild(li);
   });  
-  // Changing the div style display from none to flex to show the content
-  errorMessageDiv.style.display = "flex"; 
+  // Alterando a exibição do aviso de erro de none para flex
+  avisoDeDuplicados.style.display = "flex";
 }
 
-// Click on X hides the error message
-document.getElementById("close-message").addEventListener("click", () => {
-  document.getElementById("error-message").style.display = "none";
+// Ao clicar no botão fechar-aviso, display none
+document.getElementById("fechar-aviso-duplicados").addEventListener("click", () => {
+  document.getElementById("aviso-de-duplicados").style.display = "none";
 });
 
-// Func to detects the saved theme or the user's preference
-function initTheme() {
-  const savedTheme = localStorage.getItem("randomicat-theme");
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches; // .matches return true or false
+// Função para detectar o tema salvo ou a preferência do usuário no sistema
+function iniciarTema() {
+  const temaSalvoNoStorage = localStorage.getItem("temaSalvoNoStorage");
+  const modoEscuro = window.matchMedia("(prefers-color-scheme: dark)").matches; // .matches retorna true ou false
 
-  const theme = savedTheme || (prefersDark ? "dark" : "light"); // savedTheme first, if not, then prefersDark condition
-  applyTheme(theme);
+  /* Se temaSalvoNoStorage tiver valor, usa ele; se não, verifica se modoEscuro é true (?)
+  Se não(:), usa "claro" como tema padrão */
+  const temaEscolhido = temaSalvoNoStorage || (modoEscuro ? "escuro" : "claro"); 
+  aplicarTema(temaEscolhido);
 }
 
-// Function to apply the theme based on the user's choice
-function applyTheme(theme) {
-  document.body.classList.toggle("dark", theme === "dark");
-  const button = document.getElementById("theme-toggle");
-  button.textContent = theme === "dark" ? "☀️" : "🌙";
+function aplicarTema(temaEscolhido) {
+  document.body.classList.toggle("escuro", temaEscolhido === "escuro");
+  const button = document.getElementById("troca-tema");
+  button.textContent = temaEscolhido === "escuro" ? "☀️" : "🌙";
 }
 
-// Toggle theme when the button is clicked
-document.getElementById("theme-toggle").addEventListener("click", () => {
-  const isDark = document.body.classList.contains("dark");
-  const newTheme = isDark ? "light" : "dark";
-  applyTheme(newTheme);
-  localStorage.setItem("randomicat-theme", newTheme);
+// Trocar tema quando o botão de tema for clicado
+document.getElementById("troca-tema").addEventListener("click", () => {
+  const modoEscuro = document.body.classList.contains("escuro");
+  const novoTema = modoEscuro ? "claro" : "escuro";
+  aplicarTema(novoTema);
+  localStorage.setItem("temaSalvoNoStorage", novoTema);
 });
 
-initTheme();
+iniciarTema();
