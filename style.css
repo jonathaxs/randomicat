@@ -1,22 +1,28 @@
 
+/* Variáveis de cor */
 :root {
-  --bg-color: white;
-  --text-color: #333;
-  --card-bg: #f5f5f5;
+  --cor-do-background: white;
+  --cor-do-card: #f5f5f5;
+  --cor-do-texto: #333;
+  --background-do-duplicados: #ffe6e6;
+  --borda-do-duplicados: #ff4d4d;
+  --texto-do-duplicados: #b30000;
 }
 
-/* Estilização geral para o body */
+/* Estilo geral do body */
 body {
   font-family: Arial, sans-serif;
   margin: 20px;
+  background-color: var(--cor-do-background);
+  color: var(--cor-do-texto);
 }
 
-/* Cor do cabeçalho */
+/* Estilo do título principal */
 h1 {
-  color: var(--text-color);
+  color: var(--cor-do-texto);
 }
 
-/* Estilização geral dos botões */
+/* Estilo geral dos botões */
 button {
   padding: 5px 10px;
   margin: 5px;
@@ -24,25 +30,25 @@ button {
   cursor: pointer;
 }
 
-/* Estilização geral da lista */
+/* Estilo da lista */
 ul {
-  list-style-type: none; /* Remove the default circles */
+  list-style-type: none;
   padding-left: 0;
   margin-top: 20px;
 }
 
-/* Estilização dos itens */
+/* Estilo dos itens da lista */
 li {
   margin: 5px 0;
   padding: 8px;
-  background-color: #f5f5f5;
+  background-color: var(--cor-do-card);
   border-radius: 4px;
-  display: flex; /* Alinhamento dos itens */
+  display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-/* Estilo do botão lixeirinha (inherits o estilo do botão principal) */
+/* Botões de excluir dentro dos itens da lista */
 li button {
   background-color: #ff4d4d;
   color: white;
@@ -51,32 +57,32 @@ li button {
   padding: 5px 8px;
 }
 
-/* Estilo do terceiro botão (O Botão de Copiar Lista) */
+/* Botão Copiar Itens */
 button:nth-of-type(3) {
   background-color: #d0f0ff;
   border: 1px solid #66aacc;
   color: #004466;
 }
 
-/* Estilo do quarto botão (O Botão de limpar Lista) */
+/* Botão para Excluir Tudo */
 button:nth-of-type(4) {
   background-color: #e0e0e0;
   border: 1px solid #999;
   color: #333;
 }
 
-/* Estilo da mensagem de resultado */
-#result-the-cat-chose {
+/* Estilo do resultado do sorteio */
+#resultado-do-sorteio {
   font-weight: bold;
   margin-top: 20px;
   font-size: 18px;
 }
 
-/* Estilos da mensagem de erro dos duplicados */
-.error-message {
-  background-color: var(--error-bg, #ffe6e6);
-  border: 1px solid var(--error-border, #ff4d4d);
-  color: var(--error-text, #b30000);
+/* Estilo do aviso de duplicados */
+.aviso-de-duplicados {
+  background-color: var(--background-do-duplicados);
+  border: 1px solid var(--borda-do-duplicados);
+  color: var(--texto-do-duplicados);
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 4px;
@@ -85,50 +91,28 @@ button:nth-of-type(4) {
   align-items: center;
 }
 
-/* Estilo do botão X da menssagem de erro de duplicados */
-.error-message button {
+/* Botão para fechar o aviso de duplicados */
+.aviso-de-duplicados button {
   background: none;
   border: none;
-  color: #b30000;
+  color: var(--texto-do-duplicados);
   font-weight: bold;
   font-size: 16px;
   cursor: pointer;
 }
 
-/* Estilo da lista dos duplicados */
-#duplicate-items {
+/* Lista de itens duplicados */
+#itens-duplicados {
   margin-top: 5px;
   margin-bottom: 0;
   padding-left: 20px;
-  color: #b30000;
+  color: var(--texto-do-duplicados);
   list-style-type: disc;
   font-size: 14px;
 }
 
-
-/* Variávels pro Modo Escuro e Modo Claro */
-body {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-}
-
-/* Estilo do modo escuro no body */
-body.dark {
-  --bg-color: #121212;
-  --text-color: #f5f5f5;
-  --card-bg: #1e1e1e;
-  --error-bg: #2a0000;
-  --error-border: #ff8080;
-  --error-text: #ffcccc;
-}
-
-/* Estilização dos itens no modo escuro */
-li {
-  background-color: var(--card-bg);
-}
-
-/* Botão de trocar o tema Modo Escuro / Modo Claro */
-.theme-toggle {
+/* Botão para trocar tema */
+.troca-tema {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -138,6 +122,18 @@ li {
   font-size: 18px;
   padding: 5px 10px;
   cursor: pointer;
-  background-color: var(--card-bg);
-  color: var(--text-color);
+  background-color: var(--cor-do-card);
+  color: var(--cor-do-texto);
+}
+
+/* Tema escuro */
+body.escuro {
+  --cor-do-background: #121212;
+  --cor-do-card: #1e1e1e;
+  --cor-do-texto: #f5f5f5;
+  --background-do-duplicados: #2a0000;
+  --borda-do-duplicados: #ff8080;
+  --texto-do-duplicados: #ffcccc;
+  background-color: var(--cor-do-background);
+  color: var(--cor-do-texto);
 }
