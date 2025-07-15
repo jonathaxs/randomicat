@@ -11,10 +11,21 @@
 
 /* Estilo geral do body */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   margin: 20px;
   background-color: var(--cor-do-background);
   color: var(--cor-do-texto);
+}
+
+/* Estilo do container principal */
+.container {
+  background-color: var(--cor-do-card);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  text-align: center;
 }
 
 /* Estilo do título principal */
@@ -22,12 +33,51 @@ h1 {
   color: var(--cor-do-texto);
 }
 
+/* Estilo do input */
+input[type="text"] {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  padding: 10px;
+  width: 80%;
+}
+
 /* Estilo geral dos botões */
 button {
-  padding: 5px 10px;
-  margin: 5px;
-  font-size: 14px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 5px;
+  color: #333;
   cursor: pointer;
+  font-size: 14px;
+  margin: 5px;
+  padding: 10px;
+  transition: background-color 0.3s;
+}
+button:hover {
+  transform: scale(1.05);
+}
+
+/* Botões de excluir dentro dos itens da lista */
+li button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 8px;
+}
+
+/* Div dos botões gerais */
+.grupo-de-botoes {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+}
+.grupo-de-botoes button {
+  width: 200px;
 }
 
 /* Estilo da lista */
@@ -48,34 +98,26 @@ li {
   align-items: center;
 }
 
-/* Botões de excluir dentro dos itens da lista */
-li button {
-  background-color: #ff4d4d;
-  color: white;
-  border: none;
-  border-radius: 3px;
-  padding: 5px 8px;
-}
-
-/* Botão Copiar Itens */
-button:nth-of-type(3) {
-  background-color: #d0f0ff;
-  border: 1px solid #66aacc;
-  color: #004466;
-}
-
-/* Botão para Excluir Tudo */
-button:nth-of-type(4) {
-  background-color: #e0e0e0;
-  border: 1px solid #999;
-  color: #333;
-}
-
 /* Estilo do resultado do sorteio */
 #resultado-do-sorteio {
+  font-size: 18px;
   font-weight: bold;
   margin-top: 20px;
-  font-size: 18px;
+  text-align: center;
+}
+#resultado-do-sorteio.animar {
+  animation: surgirDoNada 1.2s ease;
+}
+/* Animação de surgirDoNada para o resultado do sorteio */
+@keyframes surgirDoNada {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Estilo do aviso de duplicados */
@@ -137,3 +179,4 @@ body.escuro {
   background-color: var(--cor-do-background);
   color: var(--cor-do-texto);
 }
+
