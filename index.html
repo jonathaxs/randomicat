@@ -6,10 +6,11 @@
   <title>Randomicat 🎲</title>
   <!-- <link rel="icon" href="favicon.ico" type="image/x-icon"> -->
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
   <script src="script.js" defer></script> <!-- "defer" só executa o DOM depois do script -->
 </head>
 
-<body>
+<body class="container">
 
   <!-- Botão para mudar o tema escuro ou claro-->
   <button id="troca-tema" class="troca-tema">🌙</button>
@@ -18,13 +19,12 @@
 
   <input type="text" id="item" placeholder="Digite os itens">
 
-  <button onclick="adicionaItem()">Adicionar Item</button>
-
-  <button onclick="sortear()">Sortear</button>
-
-  <button onclick="copiarLista()">Copiar Itens</button>
-
-  <button onclick="excluirTudo()">Excluir Tudo</button>
+  <div class="grupo-de-botoes">
+    <button onclick="adicionaItem()">Adicionar Item</button>
+    <button onclick="sortear()">Sortear</button>
+    <button onclick="copiarLista()">Copiar Itens</button>
+    <button onclick="excluirTudo()">Excluir Tudo</button>
+  </div>
 
    <!-- Mensagem de erro, inicialmente escondida, aparece quando duplicados são encontrados -->
   <div id="aviso-de-duplicados" class="aviso-de-duplicados" style="display: none;">
