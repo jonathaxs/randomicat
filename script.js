@@ -106,7 +106,16 @@ function sortear() {
 
   const itemSorteado = arrayDosItens[sorteio];
   const resultadoDoSorteio = document.getElementById("resultado-do-sorteio");
-  resultadoDoSorteio.textContent = `O gato escolheu: ${arrayDosItens[sorteio]}`;
+
+  // Animação de surgir do nada
+  // Removendo a classe de animação se já tiver sido aplicada
+  resultadoDoSorteio.classList.remove("animar");
+  // Forçando o navegador a "reprocessar" o DOM e resetar a classe
+  void resultadoDoSorteio.offsetWidth;
+  // Reaplicando a classe para ativar a animação
+  resultadoDoSorteio.classList.add("animar");
+
+  resultadoDoSorteio.textContent = `O gato escolheu: ${itemSorteado}`;
   localStorage.setItem("resultadoNoStorage", itemSorteado);
 }
 
