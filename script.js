@@ -99,24 +99,56 @@ function sortear() {
     alert("Adicione itens antes de sortear!");
     return;
   }
-  // .floor() arredonda para baixo o número gerado aleatoriamente
-  /* .random() gera um número aleatório entre 0 e 1, 
-  que é multiplicado pelo tamanho do array */
-  const sorteio = Math.floor(Math.random() * arrayDosItens.length);
 
-  const itemSorteado = arrayDosItens[sorteio];
-  const resultadoDoSorteio = document.getElementById("resultado-do-sorteio");
+  const resultado = document.getElementById("resultado-do-sorteio");
+  const botaoSortear = document.querySelector("button[onclick='sortear()']");
+  const botaoCopiar = document.querySelector("button[onclick='copiarLista()']");
+  const botaoExcluir = document.querySelector("button[onclick='excluirTudo()']");
 
-  // Animação de surgir do nada
+  // Desabilita botões durante o suspense
+  botaoSortear.disabled = true;
+  botaoCopiar.disabled = true;
+  botaoExcluir.disabled = true;
+
+  let pontos = 0;
+  resultado.textContent = "O gato está escolhendo";
   // Removendo a classe de animação se já tiver sido aplicada
-  resultadoDoSorteio.classList.remove("animar");
-  // Forçando o navegador a "reprocessar" o DOM e resetar a classe
-  void resultadoDoSorteio.offsetWidth;
-  // Reaplicando a classe para ativar a animação
-  resultadoDoSorteio.classList.add("animar");
+  resultado.classList.remove("animar");
 
-  resultadoDoSorteio.textContent = `O gato escolheu: ${itemSorteado}`;
-  localStorage.setItem("resultadoNoStorage", itemSorteado);
+  resultado.classList.add("resultado-suspense"); // ativa a animação de cor da suspense
+
+  // Loop com animação de pontinhos
+  const suspense = setInterval(() => {
+    pontos = (pontos + 1) % 4; // 0 → 1 → 2 → 3 → 0...
+    resultado.textContent = "O gato vai escolher" + ".".repeat(pontos);
+  }, 300);
+
+  // Após 2.4 segundos, mostra o resultado
+  setTimeout(() => {
+    clearInterval(suspense);
+    resultado.classList.remove("resultado-suspense");
+
+    // .floor() arredonda para baixo o número gerado aleatoriamente
+    /* .random() gera um número aleatório entre 0 e 1, 
+    que é multiplicado pelo tamanho do array */
+    const sorteio = Math.floor(Math.random() * arrayDosItens.length);
+
+    const itemSorteado = arrayDosItens[sorteio];
+    const resultadoDoSorteio = document.getElementById("resultado-do-sorteio");
+
+    // Forçando o navegador a "reprocessar" o DOM e resetar a classe
+    void resultadoDoSorteio.offsetWidth;
+    // Reaplicando a classe para ativar a animação
+    resultadoDoSorteio.classList.add("animar");
+
+    resultadoDoSorteio.textContent = `O gato escolheu: ${itemSorteado}`;
+    localStorage.setItem("resultadoNoStorage", itemSorteado);
+
+    // Reabilita os botões
+    botaoSortear.disabled = false;
+    botaoCopiar.disabled = false;
+    botaoExcluir.disabled = false;
+  }, 2400);
 }
 
 function carregarResultadoNoStorage() {
