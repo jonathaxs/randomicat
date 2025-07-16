@@ -120,6 +120,24 @@ li {
   }
 }
 
+.resultado-suspense {
+  animation: suspenseColorida 0.6s infinite alternate;
+}
+@keyframes suspenseColorida {
+  0% {
+    color: var(--cor-do-texto);
+  }
+  33% {
+    color: #bd1e1e;
+  }
+  66% {
+    color: #30a02f;
+  }
+  100% {
+    color: var(--cor-do-texto);
+  }
+}
+
 /* Estilo do aviso de duplicados */
 .aviso-de-duplicados {
   background-color: var(--background-do-duplicados);
