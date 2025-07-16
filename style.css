@@ -77,7 +77,49 @@ li button {
   margin-top: 15px;
 }
 .grupo-de-botoes button {
+  height: 40px;
   width: 200px;
+}
+
+.botao-com-ajuda {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 40px;
+  width: 205px;
+}
+
+.botao-com-ajuda button {
+  width: 180px;
+}
+
+.interrogacao {
+  align-items: center;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 5px;
+  color: #333;
+  cursor: pointer;
+  display: flex;
+  font-size: 14px;
+  justify-content: center;
+  padding: 10px;
+  transition: background-color 0.3s;
+  height: 20px;
+  width: 20px;
+}
+.interrogacao:hover {
+  transform: scale(1.05);
+}
+
+.explicacao-oculta {
+  display: none;
+  font-size: 13px;
+  color: #555;
+  margin-top: 5px;
+}
+.explicacao-visivel {
+  display: block;
 }
 
 /* Estilo da lista */
