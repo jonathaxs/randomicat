@@ -151,11 +151,39 @@ function sortear() {
   }, 2400);
 }
 
+function resortear() {
+  const ultimoResultado = localStorage.getItem("resultadoNoStorage");
+
+  if (!ultimoResultado) {
+    alert("Nenhum sorteio anterior encontrado.");
+    return;
+  }
+
+  const indiceAnterior = arrayDosItens.indexOf(ultimoResultado);
+
+  if (indiceAnterior === -1) {
+    alert("O item anterior já foi removido.");
+    return;
+  }
+
+  arrayDosItens.splice(indiceAnterior, 1); // remove o item anterior
+  salvarItensNoStorage();
+  atualizaLista();
+
+  // Chama o sortear() normalmente
+  sortear();
+}
+
 function carregarResultadoNoStorage() {
   const resultadoSalvo = localStorage.getItem("resultadoNoStorage");
   if (resultadoSalvo) { // Se resultadoSalvo tiver valor
     document.getElementById("resultado-do-sorteio").textContent = `O gato escolheu: ${resultadoSalvo}`;
   }
+}
+
+function toggleExplicacao() {
+  const explicacao = document.getElementById("explicacao-resortear");
+  explicacao.classList.toggle("explicacao-visivel");
 }
 
 carregarResultadoNoStorage();
