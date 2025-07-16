@@ -19,9 +19,21 @@
 
   <input type="text" id="item" placeholder="Digite os itens">
 
+  <div id="explicacao-resortear" class="explicacao-oculta">
+      <p>
+        Re-sortear: <br>Exclui o item sorteado da lista e sorteia novamente.
+      </p>
+  </div>
+
   <div class="grupo-de-botoes">
     <button onclick="adicionaItem()">Adicionar Item</button>
     <button onclick="sortear()">Sortear</button>
+
+    <div class="botao-com-ajuda">
+    <button onclick="resortear()">Re-sortear</button>
+    <span class="interrogacao" onclick="toggleExplicacao()">❓</span>
+    </div>
+
     <button onclick="copiarLista()">Copiar Itens</button>
     <button onclick="excluirTudo()">Excluir Tudo</button>
   </div>
