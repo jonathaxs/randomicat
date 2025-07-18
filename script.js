@@ -242,6 +242,7 @@ function atualizaLixeira() {
     const li = document.createElement("li");
     li.textContent = item;
 
+    // Botão para excluir da lixeira
     const botaoRemover = document.createElement("button");
     botaoRemover.textContent = "🗑️";
     botaoRemover.addEventListener("click", () => {
@@ -250,7 +251,27 @@ function atualizaLixeira() {
       atualizaLixeira();
     });
 
-    li.appendChild(botaoRemover);
+    // Botão para recuperar o item
+    const botaoRecuperar = document.createElement("button");
+    botaoRecuperar.textContent = "↩️";
+    botaoRecuperar.addEventListener("click", () => {
+      const recuperado = arrayDaLixeira.splice(index, 1)[0];
+      arrayDosItens.push(recuperado);
+      salvarItensNoStorage();
+      salvarLixeiraNoStorage();
+      atualizaLixeira();
+      atualizaLista();
+    });
+
+    // Container para os botões no lado direito
+    const botoes = document.createElement("div");
+    botoes.style.display = "flex";
+    botoes.style.gap = "5px";
+    botoes.appendChild(botaoRecuperar);
+    botoes.appendChild(botaoRemover);
+
+    li.textContent = item;
+    li.appendChild(botoes);
     listaLixeira.appendChild(li);
   });
 }
@@ -264,10 +285,25 @@ function esvaziarLixeira() {
   }
 }
 
+function recuperarTudo() {
+  if (arrayDaLixeira.length === 0) {
+    alert("A lixeira já está vazia.");
+    return;
+  }
+
+  arrayDosItens.push(...arrayDaLixeira);
+  arrayDaLixeira.length = 0;
+  salvarItensNoStorage();
+  salvarLixeiraNoStorage();
+  atualizaLista();
+  atualizaLixeira();
+}
+
 function mostrarLixeira() {
   document.getElementById("lixeira-container").style.display = "block";
   document.getElementById("lista-de-itens").style.display = "none";
   document.getElementById("resultado-do-sorteio").style.display = "none";
+  atualizaLixeira();
 }
 
 function fecharLixeira() {
