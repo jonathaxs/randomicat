@@ -1,6 +1,8 @@
 
 // Declarando array vazio para armazenar os itens posteriomente
 const arrayDosItens = [];
+// Array para armazenar itens que foram excluídos
+const arrayDaLixeira = [];
 
 // Quando o usuário apertar Enter no input, adicionaItem()
 const input = document.getElementById("item");
@@ -17,7 +19,7 @@ function salvarItensNoStorage() {
 }
 
 function atualizaLista() {
-  const list = document.getElementById("listaDeItens");
+  const list = document.getElementById("lista-de-itens");
   // Limpando a lista antes de atualizar por que o innerHTML é o conteúdo HTML dentro do elemento
   list.innerHTML = ""; 
 
@@ -89,8 +91,10 @@ function adicionaItem() {
 
 function excluirItem(itemX) {
   // .splice() remove 1 elemento do parâmetro itemX, enviado da função atualizaLista()
-  arrayDosItens.splice(itemX, 1);
+  const itemRemovido = arrayDosItens.splice(itemX, 1)[0];
+  arrayDaLixeira.push(itemRemovido);
   salvarItensNoStorage();
+  salvarLixeiraNoStorage();
   atualizaLista();
 }
 
@@ -207,12 +211,69 @@ function excluirTudo() {
   // confirm() é um alerta que pergunta ao usuário se ele tem certeza
   const confirmaExclusao = confirm("Tem certeza que deseja excluir tudo?");
   if (confirmaExclusao) { // Se confirmaExclusao for true
+    arrayDaLixeira.push(...arrayDosItens); // Adiciona os itens atuais na lixeira
     arrayDosItens.length = 0; // Zera o arrayDosItens
-    localStorage.removeItem("itensNoStorage");
-    localStorage.removeItem("resultadoNoStorage");
+    // localStorage.removeItem("itensNoStorage");
+    localStorage.removeItem("resultadoNoStorage")
+    salvarItensNoStorage();
+    salvarLixeiraNoStorage();
     document.getElementById("resultado-do-sorteio").textContent = "";
     atualizaLista();
   }
+}
+
+function salvarLixeiraNoStorage() {
+  localStorage.setItem("lixeiraDoRandomicat", JSON.stringify(arrayDaLixeira));
+}
+
+function carregarLixeiraDoStorage() {
+  const lixoSalvo = localStorage.getItem("lixeiraDoRandomicat");
+  if (lixoSalvo) {
+    arrayDaLixeira.push(...JSON.parse(lixoSalvo));
+    atualizaLixeira();
+  }
+}
+
+function atualizaLixeira() {
+  const listaLixeira = document.getElementById("lista-da-lixeira");
+  listaLixeira.innerHTML = "";
+
+  arrayDaLixeira.forEach((item, index) => {
+    const li = document.createElement("li");
+    li.textContent = item;
+
+    const botaoRemover = document.createElement("button");
+    botaoRemover.textContent = "🗑️";
+    botaoRemover.addEventListener("click", () => {
+      arrayDaLixeira.splice(index, 1);
+      salvarLixeiraNoStorage();
+      atualizaLixeira();
+    });
+
+    li.appendChild(botaoRemover);
+    listaLixeira.appendChild(li);
+  });
+}
+
+function esvaziarLixeira() {
+  const confirma = confirm("Deseja esvaziar a lixeira?");
+  if (confirma) {
+    arrayDaLixeira.length = 0;
+    salvarLixeiraNoStorage();
+    atualizaLixeira();
+  }
+}
+
+function mostrarLixeira() {
+  document.getElementById("lixeira-container").style.display = "block";
+  document.getElementById("lista-de-itens").style.display = "none";
+  document.getElementById("resultado-do-sorteio").style.display = "none";
+}
+
+function fecharLixeira() {
+  document.getElementById("lixeira-container").style.display = "none";
+  document.getElementById("lista-de-itens").style.display = "block";
+  document.getElementById("resultado-do-sorteio").style.display = "block";
 }
 
 // Função recebendo o texto e o array do if na função adicionaItem()
@@ -265,3 +326,4 @@ document.getElementById("troca-tema").addEventListener("click", () => {
 });
 
 iniciarTema();
+carregarLixeiraDoStorage();
