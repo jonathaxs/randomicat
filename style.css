@@ -213,6 +213,26 @@ li {
   font-size: 14px;
 }
 
+/* Estilo da lista da lixeira (mesmo que o da lista principal) */
+#lista-da-lixeira li {
+  margin: 5px 0;
+  padding: 8px;
+  background-color: var(--cor-do-card);
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Botão de deletar item da lixeira */
+#lista-da-lixeira li button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 8px;
+}
+
 /* Botão para trocar tema */
 .troca-tema {
   position: absolute;
