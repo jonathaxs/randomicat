@@ -36,6 +36,7 @@
 
     <button onclick="copiarLista()">Copiar Itens</button>
     <button onclick="excluirTudo()">Excluir Tudo</button>
+    <button onclick="mostrarLixeira()">Lixeira</button>
   </div>
 
    <!-- Mensagem de erro, inicialmente escondida, aparece quando duplicados são encontrados -->
@@ -51,7 +52,17 @@
   <p id="resultado-do-sorteio"></p>
 
   <!-- Lista dos itens que serão mostrados -->
-  <ul id="listaDeItens"></ul>
+  <ul id="lista-de-itens"></ul>
+
+  <!-- Seção da lixeira (inicialmente oculta) -->
+  <div id="lixeira-container" style="display: none;">
+    <h2>Itens na Lixeira:</h2>
+    <div class="grupo-de-botoes">
+      <button onclick="esvaziarLixeira()">Esvaziar Lixeira</button>
+      <button onclick="fecharLixeira()">Fechar Lixeira</button>
+    </div>
+    <ul id="lista-da-lixeira"></ul>
+  </div>
 
 </body>
 </html>
