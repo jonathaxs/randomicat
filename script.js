@@ -170,11 +170,19 @@ function resortear() {
     return;
   }
 
-  arrayDosItens.splice(indiceAnterior, 1); // remove o item anterior
-  salvarItensNoStorage();
-  atualizaLista();
+  // Remove o item anterior e envia para a lixeira
+  const itemRemovido = arrayDosItens.splice(indiceAnterior, 1)[0];
+  arrayDaLixeira.push(itemRemovido);
 
-  // Chama o sortear() normalmente
+  // Atualiza localStorage
+  salvarItensNoStorage();
+  salvarLixeiraNoStorage();
+
+  // Atualiza listas visuais
+  atualizaLista();
+  atualizaLixeira();
+
+  // Chama um novo sorteio
   sortear();
 }
 
